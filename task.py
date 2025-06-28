@@ -123,7 +123,7 @@ def extract_keys(df):
     df["raw_video_url"] = content.apply(lambda x: x.get("video_url"))
     df["raw_transcript_url"] = content.apply(lambda x: x.get("transcript_url"))
     df["raw_calendar_id"] = content.apply(lambda x: x.get("calendar_id"))
-    df["raw_datetime"] = content.apply(lambda x: x.get("dateString"))  # use correct key
+    df["raw_datetime"] = content.apply(lambda x: x.get("dateString"))  
     df["raw_duration"] = content.apply(lambda x: x.get("duration"))
 
     return df
@@ -139,8 +139,7 @@ def create_fact_communication(df, dims):
     df = df.merge(dims['dim_transcript'], how='left', on='raw_transcript_url')
     df = df.merge(dims['dim_subject'], how='left', on='subject')
     
-    # Optional: only if datetime dim exists
-    # df = df.merge(dims['dim_datetime'], how='left', on='raw_datetime')
+
 
     fact = df[[
         'source_id',
@@ -151,7 +150,7 @@ def create_fact_communication(df, dims):
         'audio_id',
         'video_id',
         'transcript_id',
-        'raw_datetime',  # only if you include datetime dim
+        'raw_datetime',  
         'ingested_at',
         'processed_at',
         'is_processed',
